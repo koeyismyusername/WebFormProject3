@@ -9,6 +9,8 @@ namespace WebFormProject3.BLL
 {
     public class UserBLL
     {
+        private UserBLL() { }
+
         private static UserBLL _instance;
         public static UserBLL Instance
         {
@@ -18,8 +20,6 @@ namespace WebFormProject3.BLL
                 return _instance;
             }
         }
-
-        private UserBLL() { }
 
         public List<User> GetUsers()
         {

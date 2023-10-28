@@ -26,14 +26,14 @@ namespace WebFormProject3.DAL
             foreach (DataRow row in rows)
             {
                 users.Add(User.Of(
-                    Convert.ToInt32(row["Seq"]),
-                    Convert.ToString(row["Name"]),
-                    Convert.ToString(row["Phone"]),
-                    Convert.ToString(row["Birthday"]),
-                    Convert.ToString(row["Gender"]),
-                    Convert.ToDateTime(row["CDate"]),
-                    Convert.IsDBNull(row["MDate"]) ? (DateTime?)null : Convert.ToDateTime(row["MDate"]),
-                    Convert.IsDBNull(row["DDate"]) ? (DateTime?)null : Convert.ToDateTime(row["DDate"])
+                    (int)row["Seq"],
+                    (string)row["Name"],
+                    (string)row["Phone"],
+                    (string)row["Birthday"],
+                    (string)row["Gender"],
+                    (DateTime)row["CDate"],
+                    row["MDate"] is DBNull ? (DateTime?)null : (DateTime)row["MDate"],
+                    row["DDate"] is DBNull ? (DateTime?)null : (DateTime)row["DDate"]
                 ));
             }
 
