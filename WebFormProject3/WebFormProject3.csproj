@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SqlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Ref\SqlLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -61,22 +65,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UserInfosForm.aspx" />
+    <Content Include="Pages\UserInfosForm.aspx" />
+    <Content Include="Ref\SqlLib.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\UserBLL.cs" />
     <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="Models\Data.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInfosForm.aspx.cs">
+    <Compile Include="Pages\UserInfosForm.aspx.cs">
       <DependentUpon>UserInfosForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserInfosForm.aspx.designer.cs">
+    <Compile Include="Pages\UserInfosForm.aspx.designer.cs">
       <DependentUpon>UserInfosForm.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

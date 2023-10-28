@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebFormProject3.Models;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+using SqlLib;
 
 namespace WebFormProject3.DAL
 {
@@ -11,14 +16,28 @@ namespace WebFormProject3.DAL
         private UserDAL() { }
         public static List<User> GetUsers()
         {
-            return new List<User>
+            List<User> users = new List<User>();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["MySSMS"].ConnectionString;
+            string query = "SELECT TOP 100 * FROM Users;";
+
+            DataRowCollection rows = SqlHelper.ExecuteRowCollection(connectionString, query, IsolationLevel.ReadUncommitted);
+
+            foreach (DataRow row in rows)
             {
-                User.Of(1, "홍길동", "010-1234-5678", "1996-11-11", DateTime.Now, null, null),
-                User.Of(2, "유관순", "010-5184-7946", "2000-10-23", DateTime.Now, null, null),
-                User.Of(3, "이순신", null, "1990-08-05", DateTime.Now, null, null),
-                User.Of(4, "봉준호", "010-7413-9874", "2005-04-22", DateTime.Now, null, null),
-                User.Of(5, "안중근", "010-1596-6521", "1995-07-24", DateTime.Now, null, null),
-            };
+                users.Add(User.Of(
+                    Convert.ToInt32(row["Seq"]),
+                    Convert.ToString(row["Name"]),
+                    Convert.ToString(row["Phone"]),
+                    Convert.ToString(row["Birthday"]),
+                    Convert.ToString(row["Gender"]),
+                    Convert.ToDateTime(row["CDate"]),
+                    Convert.IsDBNull(row["MDate"]) ? (DateTime?)null : Convert.ToDateTime(row["MDate"]),
+                    Convert.IsDBNull(row["DDate"]) ? (DateTime?)null : Convert.ToDateTime(row["DDate"])
+                ));
+            }
+
+            return users;
         }
     }
 }

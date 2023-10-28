@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.34112.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormProject3", "WebFormProject3\WebFormProject3.csproj", "{D93537B2-AEC2-4ADE-9B9F-7F51A10961C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{832CDBB6-BE47-4AC3-A395-519EB0593E05}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

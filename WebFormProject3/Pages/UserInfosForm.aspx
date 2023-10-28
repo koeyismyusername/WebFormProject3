@@ -15,6 +15,7 @@
                     <tr>
                         <th>이름</th>
                         <th>나이</th>
+                        <th>성별</th>
                         <th>연락처</th>
                     </tr>
                 </thead>
@@ -24,6 +25,7 @@
                             <tr>
                                 <td><%# Eval("Name") %></td>
                                 <td><%# Eval("Age") %></td>
+                                <td><%# Eval("Gender") %></td>
                                 <td><%# Eval("Phone") %></td>
                             </tr>
                         </ItemTemplate>
