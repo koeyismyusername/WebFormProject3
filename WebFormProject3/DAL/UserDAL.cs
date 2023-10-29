@@ -21,7 +21,7 @@ namespace WebFormProject3.DAL
             string connectionString = ConfigurationManager.ConnectionStrings["MySSMS"].ConnectionString;
             string query = "SELECT TOP 100 * FROM Users;";
 
-            DataRowCollection rows = SqlHelper.ExecuteRowCollection(connectionString, query, IsolationLevel.ReadUncommitted);
+            DataRowCollection rows = SqlHelper.ExecuteAll(connectionString, query, IsolationLevel.ReadUncommitted);
 
             foreach (DataRow row in rows)
             {
@@ -38,6 +38,16 @@ namespace WebFormProject3.DAL
             }
 
             return users;
+        }
+
+        public static void InsertUser(User user)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["MySSMS"].ConnectionString;
+            string query = $@"INSERT INTO Users(Phone, Name, Birthday, Gender)
+VALUES
+    ('{user.Phone}', '{user.Name}', '{user.Birthday}', '{user.GenderCode}')";
+
+            SqlHelper.ExecuteNone(connectionString, query, IsolationLevel.RepeatableRead);
         }
     }
 }

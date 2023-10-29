@@ -51,6 +51,7 @@ namespace WebFormProject3.Models
                 _birthday = value;
             }
         }
+        public string GenderCode { get { return _gender; } }
         public string Gender
         {
             get

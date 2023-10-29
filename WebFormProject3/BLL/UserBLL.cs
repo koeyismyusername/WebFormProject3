@@ -25,5 +25,10 @@ namespace WebFormProject3.BLL
         {
             return UserDAL.GetUsers();
         }
+
+        public void InsertUser(User user)
+        {
+            UserDAL.InsertUser(user);
+        }
     }
 }

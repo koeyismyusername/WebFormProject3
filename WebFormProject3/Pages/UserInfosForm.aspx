@@ -8,7 +8,29 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="userInfoForm" runat="server">
+        <div>
+            <div>
+                <asp:Label Text="이름: " runat="server" />
+                <asp:TextBox runat="server" ID="tBoxName" Placeholder="홍길동" Required="true" />
+            </div>
+            <div>
+                <asp:Label Text="생년월일: " runat="server" />
+                <asp:TextBox runat="server" ID="tBoxBirthday" Placeholder="1996-04-01" Required="true" />
+            </div>
+            <div>
+                <asp:Label Text="성별" runat="server" />
+                <asp:RadioButton Text="남성" runat="server" ID="radioMan" GroupName="RadioGenders" Checked="true" />
+                <asp:RadioButton Text="여성" runat="server" ID="radioWoman" GroupName="RadioGenders" />
+            </div>
+            <div>
+                <asp:Label Text="휴대폰 번호" runat="server" />
+                <asp:TextBox runat="server" ID="tBoxPhone" Placeholder="010-1234-5678" Required="true" />
+            </div>
+            <div>
+                <asp:Button ID="btnInsert" runat="server" Text="삽입하기" type="submit" OnClick="btnInsert_Click" OnClientClick="return validateUserInfo();"/>
+            </div>
+        </div>
         <div>
             <table>
                 <thead>
@@ -33,53 +55,29 @@
                 </tbody>
             </table>
         </div>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>이름</th>
-                        <th>생년월일</th>
-                        <th>성별</th>
-                        <th>연락처</th>
-                    </tr>
-                </thead>
-                <tbody id="inputRows">
-                    <tr class="userItem">
-                        <td>
-                            <input class="inputName" type="text" /></td>
-                        <td>
-                            <input class="inputBirthday" type="text" /></td>
-                        <td>
-                            <input class="inputGender" type="text" /></td>
-                        <td>
-                            <input class="inputPhone" type="text" /></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div>
-                <asp:Button ID="btnAddRow" runat="server" Text="행 추가" OnClientClick="addUserRow();" />
-                <asp:Button ID="btnInsert" runat="server" Text="삽입하기" OnClick="btnInsert_Click" OnClientClick="return insertUser();" />
-            </div>
-        </div>
     </form>
     <script>
-        function addUserRow() {
-            event.preventDefault();
+        function validateUserInfo() {
+            const tBoxBirthday = document.querySelector("#<%= tBoxBirthday.ClientID%>");
+            const birthday = tBoxBirthday.value;
+            if (!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|31)$/.test(birthday)) {
+                alert("생년월일의 양식을 만족하지 않습니다.");
+                return false;
+            }
 
-            const newTr = document.createElement("tr");
-            newTr.classList.add("userItem");
-            newTr.innerHTML = `<td><input class="inputName" type="text"/></td>
-<td><input class="inputBirthday" type="text"/></td>
-<td><input class="inputGender" type="text"/></td>
-<td><input class="inputPhone" type="text"/></td>`;
+            const date = new Date(birthday);
+            if (Date.now() < date) {
+                alert("생년월일은 현재 이후일 수 없습니다.");
+                return false;
+            }
 
-            const tbody = document.getElementById("inputRows");
-            tbody.appendChild(newTr);
-
-            return true;
-        }
-
-        function insertUser() {
+            const tBoxPhone = document.querySelector("#tBoxPhone");
+            const phone = tBoxPhone.value;
+            if (!/^\d{3,4}-\d{4}-\d{4}$/.test(phone)) {
+                alert("휴대폰 번호의 양식을 만족하지 않습니다.");
+                return false;
+            }
+            console.log("검사 통과!");
             return true;
         }
     </script>
