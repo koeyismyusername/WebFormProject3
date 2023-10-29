@@ -23,5 +23,10 @@ namespace WebFormProject3
             UserInfos.DataSource = users;
             UserInfos.DataBind();
         }
+
+        protected void btnInsert_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("hello, world");
+        }
     }
 }
