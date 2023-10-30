@@ -13,35 +13,16 @@ namespace WebFormProject3.DAL
 {
     public class UserDAL
     {
-        private const bool atHome = false;    // 집이면 true, 회사면 false
-        private const string tableName = atHome ? "Users" : "User_TEST";
-        private const string connectionStringKey = atHome ? "MySSMS" : "TomatoSSMS";
+        private static readonly string tableName = bool.Parse(ConfigurationManager.AppSettings["IsHome"]) ? "Users" : "User_TEST";
+        private static readonly string connectionStringKey = bool.Parse(ConfigurationManager.AppSettings["IsHome"]) ? "MySSMS" : "TomatoSSMS";
 
         private UserDAL() { }
         public static List<User> GetUsers()
         {
-            List<User> users = new List<User>();
-
             string connectionString = ConfigurationManager.ConnectionStrings[connectionStringKey].ConnectionString;
             string query = $"SELECT TOP 100 * FROM {tableName};";
 
-            DataRowCollection rows = SqlHelper.ExecuteAll(connectionString, query, null, IsolationLevel.ReadUncommitted);
-
-            foreach (DataRow row in rows)
-            {
-                users.Add(User.Of(
-                    (int)row["Seq"],
-                    (string)row["Name"],
-                    (string)row["Phone"],
-                    (string)row["Birthday"],
-                    (string)row["Gender"],
-                    (DateTime)row["CDate"],
-                    row["MDate"] is DBNull ? (DateTime?)null : (DateTime)row["MDate"],
-                    row["DDate"] is DBNull ? (DateTime?)null : (DateTime)row["DDate"]
-                ));
-            }
-
-            return users;
+            return SqlHelper.ExecuteAll<User>(connectionString, query, null, IsolationLevel.ReadUncommitted);
         }
 
         public static void InsertUser(User user)
@@ -59,7 +40,7 @@ VALUES
                 new SqlParameter("@genderCode", user.GenderCode),
             };
 
-            SqlHelper.ExecuteNone(connectionString, query, sqlParameters, IsolationLevel.RepeatableRead);
+            SqlHelper.ExecuteNone(connectionString, query, sqlParameters);
         }
     }
 }

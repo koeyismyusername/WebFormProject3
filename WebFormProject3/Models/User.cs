@@ -84,7 +84,7 @@ namespace WebFormProject3.Models
             }
         }
 
-        private User() : base() { }
+        //private User() : base() { }
 
         public static User New(string name, string phone, string birthday, string gender) => Of(null, name, phone, birthday, gender, null, null, null);
         public static User Of(int? seq, string name, string phone, string birthday, string gender, DateTime? cDate, DateTime? mDate, DateTime? dDate)
