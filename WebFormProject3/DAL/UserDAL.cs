@@ -13,15 +13,19 @@ namespace WebFormProject3.DAL
 {
     public class UserDAL
     {
+        private const bool atHome = false;    // 집이면 true, 회사면 false
+        private const string tableName = atHome ? "Users" : "User_TEST";
+        private const string connectionStringKey = atHome ? "MySSMS" : "TomatoSSMS";
+
         private UserDAL() { }
         public static List<User> GetUsers()
         {
             List<User> users = new List<User>();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["MySSMS"].ConnectionString;
-            string query = "SELECT TOP 100 * FROM Users;";
+            string connectionString = ConfigurationManager.ConnectionStrings[connectionStringKey].ConnectionString;
+            string query = $"SELECT TOP 100 * FROM {tableName};";
 
-            DataRowCollection rows = SqlHelper.ExecuteAll(connectionString, query, IsolationLevel.ReadUncommitted);
+            DataRowCollection rows = SqlHelper.ExecuteAll(connectionString, query, null, IsolationLevel.ReadUncommitted);
 
             foreach (DataRow row in rows)
             {
@@ -42,12 +46,20 @@ namespace WebFormProject3.DAL
 
         public static void InsertUser(User user)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MySSMS"].ConnectionString;
-            string query = $@"INSERT INTO Users(Phone, Name, Birthday, Gender)
+            string connectionString = ConfigurationManager.ConnectionStrings[connectionStringKey].ConnectionString;
+            string query = $@"INSERT INTO {tableName}(Phone, Name, Birthday, Gender)
 VALUES
-    ('{user.Phone}', '{user.Name}', '{user.Birthday}', '{user.GenderCode}')";
+    (@phone, @name, @birthday, @genderCode)";
 
-            SqlHelper.ExecuteNone(connectionString, query, IsolationLevel.RepeatableRead);
+            SqlParameter[] sqlParameters = new SqlParameter[]
+            {
+                new SqlParameter("@phone", user.Phone),
+                new SqlParameter("@name", user.Name),
+                new SqlParameter("@birthday", user.Birthday),
+                new SqlParameter("@genderCode", user.GenderCode),
+            };
+
+            SqlHelper.ExecuteNone(connectionString, query, sqlParameters, IsolationLevel.RepeatableRead);
         }
     }
 }
